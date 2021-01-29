@@ -2,7 +2,7 @@ spring:
     profiles:
         active: local
     datasource:
-        url: jdbc:postgresql://localhost:5432/bc_case_study
+        url: jdbc:postgresql://efriandika.com:5432/bc_case_study
         username: bootcamp
         password: bootcamp123
         driver-class-name: org.postgresql.Driver

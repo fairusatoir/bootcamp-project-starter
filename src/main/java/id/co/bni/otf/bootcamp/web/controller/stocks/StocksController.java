@@ -1,7 +1,9 @@
 package id.co.bni.otf.bootcamp.web.controller.stocks;
 
+import id.co.bni.otf.bootcamp.service.ClosingPriceService;
 import id.co.bni.otf.bootcamp.service.StocksService;
 import id.co.bni.otf.bootcamp.service.dto.StocksDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -10,6 +12,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.Date;
 
 @RestController
 @Validated
@@ -17,9 +22,11 @@ import javax.validation.Valid;
 public class StocksController {
 
     private final StocksService stocksService;
+    private final ClosingPriceService closingPriceService;
 
-    public StocksController(StocksService stocksService) {
+    public StocksController(StocksService stocksService, ClosingPriceService closingPriceService) {
         this.stocksService = stocksService;
+        this.closingPriceService = closingPriceService;
     }
 
     @GetMapping("/")
@@ -61,5 +68,13 @@ public class StocksController {
     public HttpStatus delete(@PathVariable Long id) {
         stocksService.delete(id);
         return HttpStatus.NO_CONTENT;
+    }
+
+    @GetMapping("/getProfitByDate")
+    public ResponseEntity <Object> getProfitMaxByDate(
+            @RequestParam(required = false) LocalDate start,
+            @RequestParam(required = false) LocalDate end
+    ) {
+        return ResponseEntity.ok().body(closingPriceService.findMaxProfit(start,end));
     }
 }
