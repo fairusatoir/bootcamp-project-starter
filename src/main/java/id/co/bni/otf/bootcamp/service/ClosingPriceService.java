@@ -25,12 +25,8 @@ public class ClosingPriceService {
         List<ClosingPrice> closingPrices = closingPriceRepository.findByDateAfterAndDateBefore(start, end);
 
         for (int iterStart = 1; iterStart < closingPrices.size(); iterStart++) {
-            maxProfit = closingPrices.get(0).getPrice();
-            int iterNextOne = iterStart + 1;
-            while (iterNextOne >= 0) {
-                if (closingPrices.get(iterNextOne).getPrice().compareTo(maxProfit) == 1) { //1 =  a Lebih besar b
-                    maxProfit = closingPrices.get(iterNextOne).getPrice();
-                }
+            if (closingPrices.get(iterStart+1).getPrice().compareTo(closingPrices.get(iterStart+1).getPrice()) == 1){
+                maxProfit = closingPrices.get(iterStart+1).getPrice();
             }
         }
         return maxProfit;

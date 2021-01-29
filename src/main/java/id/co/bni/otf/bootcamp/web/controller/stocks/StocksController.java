@@ -70,11 +70,15 @@ public class StocksController {
         return HttpStatus.NO_CONTENT;
     }
 
-    @GetMapping("/getProfitByDate")
+    @GetMapping("/profit/max")
     public ResponseEntity <Object> getProfitMaxByDate(
             @RequestParam(required = false) LocalDate start,
             @RequestParam(required = false) LocalDate end
     ) {
-        return ResponseEntity.ok().body(closingPriceService.findMaxProfit(start,end));
+        try {
+            return ResponseEntity.ok().body(closingPriceService.findMaxProfit(start,end));
+        }catch (Exception e){
+            return ResponseEntity.ok().body("Ada yang error nich! = "+e.toString());
+        }
     }
 }
